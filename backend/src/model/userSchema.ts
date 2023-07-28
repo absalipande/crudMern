@@ -7,7 +7,7 @@ export interface IUser extends Document {
   gender: string;
   createdAt: Date;
   updatedAt: Date;
-  role: string; 
+  role: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema<IUser>(
     email: {
       type: String,
       required: true,
-      unique: true, 
+      unique: true,
     },
     gender: {
       type: String,
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema<IUser>(
     },
     role: {
       type: String,
-      default: 'user', 
+      default: 'user',
     },
   },
   {

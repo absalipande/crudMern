@@ -37,7 +37,7 @@ export const postUser = async (req: AuthenticatedRequest, res: Response) => {
     const listedUser = await user.save();
     res.status(201).json(listedUser);
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(400).json({ message: 'Failed to create user.' });
   }
 };
@@ -76,7 +76,9 @@ export const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
         return res.status(404).json({ message: 'User not found.' });
       }
     } else {
-      return res.status(403).json({ message: 'You do not have permission to delete this user.' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to delete this user.' });
     }
   } catch (error) {
     res.status(400).json({ message: 'Failed to delete the user.' });
