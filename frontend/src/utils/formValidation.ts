@@ -9,7 +9,7 @@ const formSchema = z.object({
     .int('Age must be an integer')
     .positive('Age must be positive')
     .min(18, 'Age must be at least 18')
-    .max(60, 'Age must be less than or equal 60'),
+    .max(99, 'Age must be less than or equal 99'),
     email: z.string().email('Invalid email address'),
     gender: z.enum(genderIdentity)
 });
