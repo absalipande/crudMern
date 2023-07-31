@@ -31,7 +31,7 @@ const AddUser = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      age: 18,
+      age: 0,
       email: '',
       gender: 'Male',
     },
@@ -41,15 +41,13 @@ const AddUser = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log("Submitting form with values: ", values); 
       const response = await axios.post('http://localhost:3000/users', values);
-      console.log(response.data)
+      console.log(response.data);
       toast.success('User created successfully!');
       form.reset();
       navigate('/');
     } catch (error: any) {
-      console.error(error.response);
-      toast.error('Failed to create user. Please try again.');
+      toast.error('Something went wrong. Please try again later.');
     }
   };
 
@@ -87,8 +85,7 @@ const AddUser = () => {
                       {...field}
                       onChange={(e) => {
                         const parsedValue = parseInt(e.target.value);
-                        console.log(`Input value: ${e.target.value}, Parsed value: ${parsedValue}`); 
-                        field.onChange(parsedValue); 
+                        field.onChange(parsedValue);
                       }}
                     />
                   </FormControl>
@@ -143,17 +140,16 @@ const AddUser = () => {
                       name='gender'
                     />
                   </FormControl>
-                  <FormDescription>Please select your gender.</FormDescription>
                 </FormItem>
               )}
             />
-          <Button
-            variant='default'
-            type='submit'
-            className='flex flex-col items-center w-full flex justify-center py-5 px-4 border border-transparent text-sm font-medium text-white bg-green hover:bg-dark-green'
-          >
-            Submit
-          </Button>
+            <Button
+              variant='default'
+              type='submit'
+              className='flex flex-col items-center w-full flex justify-center py-5 px-4 border border-transparent text-sm font-medium text-white bg-green hover:bg-dark-green'
+            >
+              Submit
+            </Button>
           </form>
         </Form>
       </div>

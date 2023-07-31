@@ -90,12 +90,14 @@ const Users: FC<UsersProps> = () => {
               </TableCell>
               <TableCell className='py-3 px-6 text-left'>
                 <div className='flex space-x-4'>
-                  <Button
-                    variant='default'
-                    className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300'
-                  >
-                    Edit
-                  </Button>
+                  <Link to={`/edit-user/${user._id}`}>
+                    <Button
+                      variant='default'
+                      className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300'
+                    >
+                      Edit
+                    </Button>
+                  </Link>
                   <Button className='bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-300'>
                     Delete
                   </Button>
