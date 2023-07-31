@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface UsersProps {
   _id: string;
@@ -34,7 +34,7 @@ interface UsersProps {
 
 const Users: FC<UsersProps> = () => {
   const [users, setUsers] = useState<UsersProps[]>([]);
-  const [selectedUser, setSelectedUser] = useState<UsersProps | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UsersProps | null>(null)
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -65,6 +65,7 @@ const Users: FC<UsersProps> = () => {
           `http://localhost:3000/users/${selectedUser._id}`,
           selectedUser
         );
+        console.log('User update successful')
         toast.success('User updated successfully!');
       } catch (error: any) {
         toast.error('Failed to update user. Please try again later.');
@@ -78,13 +79,13 @@ const Users: FC<UsersProps> = () => {
         <Link to={'/add-user'}>
           <Button
             variant='default'
-            className='flex item-start mb-5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300'
+            className='flex flex-col items-center mb-2 flex justify-center py-5 px-4 border border-transparent text-sm font-medium text-white bg-green hover:bg-dark-green'
           >
             Add new User
           </Button>
         </Link>
       </div>
-      <Table className='min-w-full divide-y divide-gray-200'>
+      <Table>
         <TableCaption>A list of users</TableCaption>
         <TableHeader>
           <TableRow>
@@ -120,7 +121,7 @@ const Users: FC<UsersProps> = () => {
                       </Button>
                     </DialogTrigger>
                     {selectedUser && (
-                      <DialogContent className='sm:max-w-[425px]'>
+                      <DialogContent className='sm:max-w-[425px] flex flex-col'>
                         <DialogHeader>
                           <DialogTitle>Edit profile</DialogTitle>
                           <DialogDescription>
@@ -161,7 +162,12 @@ const Users: FC<UsersProps> = () => {
                             onChange={(e) => handleInputChange(e, 'gender')}
                           />
                           <DialogFooter>
-                            <Button type='submit'>Save changes</Button>
+                            <Button
+                              type='submit'
+                              className='flex items-start w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-lg hover:bg-blue-600'
+                            >
+                              Save changes
+                            </Button>
                           </DialogFooter>
                         </form>
                       </DialogContent>
