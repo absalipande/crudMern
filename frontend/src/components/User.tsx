@@ -23,6 +23,19 @@ import {
   TableRow,
 } from '@/components/ui/Table';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './ui/AlertDialog';
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+} from './ui/AlertDialog';
 
 interface UsersProps {
   _id: string;
@@ -34,7 +47,9 @@ interface UsersProps {
 
 const Users: FC<UsersProps> = () => {
   const [users, setUsers] = useState<UsersProps[]>([]);
-  const [selectedUser, setSelectedUser] = useState<UsersProps | null>(null)
+  const [selectedUser, setSelectedUser] = useState<UsersProps | null>(null);
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+    useState(false);
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -65,12 +80,28 @@ const Users: FC<UsersProps> = () => {
           `http://localhost:3000/users/${selectedUser._id}`,
           selectedUser
         );
-        console.log('User update successful')
+        console.log('User update successful');
         toast.success('User updated successfully!');
       } catch (error: any) {
         toast.error('Failed to update user. Please try again later.');
       }
     }
+  };
+
+  const handleDeleteUser = async () => {
+    if (selectedUser) {
+      try {
+        await axios.delete(`http://localhost:3000/users/${selectedUser._id}`);
+        toast.success('User deleted successfully!');
+        setUsers((prevUsers) =>
+          prevUsers.filter((user) => user._id !== selectedUser._id)
+        );
+        setSelectedUser(null); // Clear the selectedUser state after successful deletion
+      } catch (error: any) {
+        toast.error('Failed to delete user. Please try again later.');
+      }
+    }
+    setIsDeleteConfirmationOpen(false); // Close the delete confirmation after deletion
   };
 
   return (
@@ -173,7 +204,42 @@ const Users: FC<UsersProps> = () => {
                       </DialogContent>
                     )}
                   </Dialog>
-                  {/* Your delete button */}
+
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      <Button
+                        variant='destructive'
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setIsDeleteConfirmationOpen(true);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          database.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter className='flex justify-end'>
+                        <AlertDialogCancel
+                          onClick={() => setIsDeleteConfirmationOpen(false)}
+                        >
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleDeleteUser()}>
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </TableCell>
             </TableRow>
