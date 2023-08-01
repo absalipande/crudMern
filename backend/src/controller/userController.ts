@@ -33,11 +33,11 @@ export const getUserById = async (req: AuthenticatedRequest, res: Response) => {
 export const postUser = async (req: AuthenticatedRequest, res: Response) => {
   const { name, age, email, gender } = req.body;
   const deleteToken = uuidv4();
-  const user = new User({ name, age, email, gender });
+  const user = new User({ name, age, email, gender, deleteToken });
 
   try {
     const listedUser = await user.save();
-    res.status(201).json({ user: listedUser, deleteToken });
+    res.status(201).json({ user: listedUser });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'Failed to create user.' });
