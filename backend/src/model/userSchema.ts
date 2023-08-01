@@ -8,6 +8,7 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   role: string;
+  deleteToken: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -40,6 +41,10 @@ const userSchema = new mongoose.Schema<IUser>(
     role: {
       type: String,
       default: 'user',
+    },
+    deleteToken: {
+      type: String,
+      required: true,
     },
   },
   {
