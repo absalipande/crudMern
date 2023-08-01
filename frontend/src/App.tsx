@@ -13,7 +13,7 @@ const App = () => {
       <Routes>
         <Route
           path='/'
-          element={<Users _id={''} name={''} age={0} email={''} gender={''} />}
+          element={<Users _id={''} name={''} age={0} email={''} gender={''} deleteToken={''} />}
         />
         <Route path='/add-user' element={<AddUser />} />
       </Routes>

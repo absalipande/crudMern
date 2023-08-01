@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -43,12 +43,13 @@ interface UsersProps {
   age: number;
   email: string;
   gender: string;
+  deleteToken: string;
 }
 
 const Users: FC<UsersProps> = () => {
   const [users, setUsers] = useState<UsersProps[]>([]);
   const [selectedUser, setSelectedUser] = useState<UsersProps | null>(null);
-  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+  const [, setIsDeleteConfirmationOpen] =
     useState(false);
 
   useEffect(() => {
@@ -91,22 +92,24 @@ const Users: FC<UsersProps> = () => {
   const handleDeleteUser = async () => {
     if (selectedUser) {
       try {
-        await axios.delete(`http://localhost:3000/users/${selectedUser._id}`);
+        await axios.delete(`http://localhost:3000/users/${selectedUser._id}`, {
+          data: { deleteToken: selectedUser.deleteToken },
+        });
         toast.success('User deleted successfully!');
         setUsers((prevUsers) =>
           prevUsers.filter((user) => user._id !== selectedUser._id)
         );
-        setSelectedUser(null); // Clear the selectedUser state after successful deletion
+        setSelectedUser(null);
       } catch (error: any) {
         toast.error('Failed to delete user. Please try again later.');
       }
     }
-    setIsDeleteConfirmationOpen(false); // Close the delete confirmation after deletion
+    setIsDeleteConfirmationOpen(false);
   };
 
   return (
     <div className='p-10'>
-      <div>
+      <div style={{ width: '200px' }}>
         <Link to={'/add-user'}>
           <Button
             variant='default'

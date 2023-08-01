@@ -4,10 +4,8 @@ import { Controller, useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
 } from './ui/Form';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
@@ -62,7 +60,6 @@ const AddUser = () => {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel className='flex ml-1'>Name</FormLabel> */}
                   <FormControl>
                     <Input placeholder='Name' disabled={isLoading} {...field} />
                   </FormControl>
@@ -115,9 +112,8 @@ const AddUser = () => {
             <FormField
               control={form.control}
               name='gender'
-              render={({ field }) => (
+              render={({ }) => (
                 <FormItem>
-                  {/* <FormLabel className='flex ml-1'>Gender</FormLabel> */}
                   <FormControl>
                     <Controller
                       render={({ field }) => (
